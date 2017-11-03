@@ -1,23 +1,17 @@
-
-
-
 <template>
   <li>
     <div :class="{bold: isFolder}">
-
       <span v-if="isFolder" v-show="open">
-      <i class="fa fa-chevron-down fa-spin-hover" aria-hidden="true" @click="toggle"></i>
+        <i class="fa fa-chevron-down fa-spin-hover" aria-hidden="true" @click="toggle"></i>
       </span>
 
       <span v-if="isFolder" v-show="!open">
         <i class="fa fa-chevron-right fa-spin-hover" @click="toggle"></i>
       </span>
      
-      <span v-if="isFolder && model.children.length>0" v-show="!open" font face="Consolas">
+      <span v-if="isFolder && model.children.length > 0" v-show="!open" font face="Consolas">
         <font face="Roboto" size="2" color="blue" >{...+{{model.children.length}}}</font>
       </span>
-    
-
       <span v-if="isFolder">
         <i class="fa fa-cubes identity" aria-hidden="true"></i>
       </span>
@@ -37,19 +31,19 @@
       <span v-if="editKey==false">
         <label @dblclick = "editTheKey"> {{objectKey}} </label>
       </span>
-      :
+      
       <span v-if="editValue==true">
       <input type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" id="input" v-model="objectValue" @blur="editValue=false" @keyup.enter= "editValue=false" >
       </span>
-      <span v-if="editValue==false">
-        <label @dblclick = "editTheValue"> {{objectValue}} </label>
+      <span v-if="editValue==false && !isFolder">
+        <label @dblclick = "editTheValue">: {{objectValue}} </label>
       </span>
       
 
-
+<!-- 
       <i class="fa fa-pencil-square-o" aria-hidden="true" @click="editTheObject" v-if="editKey==false&&editValue==false" v-bind:title="messageEdit"></i>
       <i class="fa fa-pencil-square" aria-hidden="true" @click="editTheObject" v-if="editKey==true||editValue==true"  v-bind:title="messageSave"></i>
-
+ -->
 
 
 
@@ -72,7 +66,7 @@
         <a class="addCube" aria-hidden="true" @click="addChild"  v-bind:title="messageAdd1">
         <i class="fa fa-plus"  aria-hidden="true"></i>
         <i class="fa fa-cube"  aria-hidden="true"></i>
-        </a>
+    </a>
 
 
     </ul>
@@ -120,44 +114,38 @@ export default {
   },
   computed: {
     isFolder: function () {
-      
-      return this.model.children &&
-        this.model.children.length
+      return this.model.children && this.model.children.length
     }
   },
   methods: {
     deleteKid(index) {
       this.model.children.splice(index, 1)
     },
-
-    toggle: function () {
+    toggle() {
       if (this.isFolder) {
         this.open = !this.open
       }
-
     },
-
-    changeType: function () {
+    changeType() {
       if (!this.isFolder) {
         this.$set(this.model, 'children', [])
         this.addChild()
         this.open = true
       }
     },
-
-    addChild: function () {
+    addChild () {
       this.model.children.push({
         Key: "ObjectKey",
         Value: "ObjectValue",
       })
     },
 
-    trashThis: function () {
+    trashThis  () {
       this.$emit('deleteMe', this.index)
       if(this.isFolder) this.model.children = []
     },
 
-    editTheKey: function () {
+    editTheKey  () {
         this.editKey = !this.editKey
         this.$nextTick(function() {
             var object = document.getElementById("input");
@@ -165,7 +153,7 @@ export default {
         });
 
     },
-    editTheValue: function () {
+    editTheValue  () {
         
         this.editValue = !this.editValue
         this.$nextTick(function() {
@@ -173,30 +161,27 @@ export default {
             object.focus();
         });
     },
-    editTheObject: function () {
+    editTheObject  () {
 
-        if(this.editKey==true && this.editValue==true || this.editKey==false && this.editValue==false){
+        if( this.editKey==true && this.editValue==true || this.editKey==false && this.editValue==false ){
           this.editKey = !this.editKey
           this.editValue = !this.editValue
         }
-        else if(this.editKey==false && this.editValue==true  || this.editKey==true && this.editValue==false){
+        else if( this.editKey==false && this.editValue==true  || this.editKey==true && this.editValue==false){
           this.editKey = false
           this.editValue = false
         }
-        this.$nextTick(function() {
+        this.$nextTick( function( ) {
             var object = document.getElementById("input");
             object.focus();
         });
- 
-
         //this.model.Key = prompt('Edit Name:', this.model.Key) || this.model.Key;
     },
 
-   textAreaAdjust: function(o) {
-  o.style.height = "1px";
-  o.style.height = (25+o.scrollHeight)+"px";
-
-  },
+   textAreaAdjust (o) {
+    o.style.height = "1px";
+    o.style.height = (25+o.scrollHeight)+"px";
+    },
 
 
 
@@ -223,16 +208,8 @@ export default {
 .fa-times:hover{
     color: red;
 }
-
-
-
-
-
-
 .fa-plus {
     color: LightGray;
-
-
 }
 .fa-plus:hover {
     color:  #1E90FF;
@@ -271,24 +248,19 @@ export default {
     /*transform: rotate(90deg);*/
 }
 
-
-
 .fa-pencil-square-o {
     color:  LightGray;
 }
 .fa-pencil-square-o:hover {
     color:  #2c3e50;
 }
-
 .content {
   color: LightGray;
   font-family: Menlo, Consolas, monospace;
   font-weight: lighter;
 }
-
 .addCube:hover .fa-cube {
   color:  #66CCFF;
-  
 }
 .addCube:hover .fa-plus {
   color:  #1E90FF;
@@ -296,7 +268,5 @@ export default {
 .inputStyle{
 
 }
-
-
 </style>
 
