@@ -1,4 +1,4 @@
-# second-thing
+# SpeckleRhinoTree
 
 > A Vue.js project
 
