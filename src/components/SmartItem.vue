@@ -30,33 +30,30 @@
 
 
       <span v-if="editKey==true">
-        <input type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" id="input" v-model="objectKey" @blur="editKey=false" @keyup.enter= "editKey=false">
-      
+        <input type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" class="input" id="input" v-model="objectKey" v-on:blur="editKey=false" @keyup.enter= "editKey=false">
       </span>
 
       <span v-if="editKey==false">
         <label @dblclick = "editTheKey"> {{objectKey}} </label>
       </span>
+
       :
+
       <span v-if="editValue==true">
-      <input type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" id="input" v-model="objectValue" @blur="editValue=false" @keyup.enter= "editValue=false" >
+      <input type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" class="input" id="input" v-model="objectValue" v-on:blur="editValue=false" @keyup.enter= "editValue=false" >
       </span>
+
       <span v-if="editValue==false">
         <label @dblclick = "editTheValue"> {{objectValue}} </label>
       </span>
       
 
-
       <i class="fa fa-pencil-square-o" aria-hidden="true" @click="editTheObject" v-if="editKey==false&&editValue==false" v-bind:title="messageEdit"></i>
       <i class="fa fa-pencil-square" aria-hidden="true" @click="editTheObject" v-if="editKey==true||editValue==true"  v-bind:title="messageSave"></i>
-
-
-
 
       <span v-if="!isFolder">
         <i class="fa fa-cubes" aria-hidden="true" @click="changeType" v-bind:title="messageAdd0"></i>
       </span>
-
 
       <a class="contentDescription">
         <i class="fa fa-times" aria-hidden="true" @click="trashThis" v-if="!model.children" v-bind:title="messageDelete0"></i>
@@ -82,7 +79,6 @@
 
 <script>
 
-//import ModalPrompt from './components/ModalPrompt.js'
 
 export default {
   name: 'item',
@@ -118,13 +114,14 @@ export default {
       editValue: false,
     }
   },
+
   computed: {
     isFolder: function () {
-      
       return this.model.children &&
         this.model.children.length
     }
   },
+
   methods: {
     deleteKid(index) {
       this.model.children.splice(index, 1)
@@ -134,7 +131,6 @@ export default {
       if (this.isFolder) {
         this.open = !this.open
       }
-
     },
 
     changeType: function () {
@@ -160,46 +156,50 @@ export default {
     editTheKey: function () {
         this.editKey = !this.editKey
         this.$nextTick(function() {
+            //var object = document.getElementsByClassName("input");
             var object = document.getElementById("input");
             object.focus();
         });
-
     },
+
     editTheValue: function () {
-        
         this.editValue = !this.editValue
         this.$nextTick(function() {
             var object = document.getElementById("input");
             object.focus();
         });
     },
+
     editTheObject: function () {
+
+        this.uneditAll() //call the function that SHOULD "unedit" everything
+
 
         if(this.editKey==true && this.editValue==true || this.editKey==false && this.editValue==false){
           this.editKey = !this.editKey
           this.editValue = !this.editValue
         }
+
         else if(this.editKey==false && this.editValue==true  || this.editKey==true && this.editValue==false){
           this.editKey = false
           this.editValue = false
         }
+
         this.$nextTick(function() {
             var object = document.getElementById("input");
             object.focus();
-        });
- 
+        })
 
-        //this.model.Key = prompt('Edit Name:', this.model.Key) || this.model.Key;
     },
 
-   textAreaAdjust: function(o) {
-  o.style.height = "1px";
-  o.style.height = (25+o.scrollHeight)+"px";
-
-  },
-
-
-
+     uneditAll: function(){
+          var objects = document.getElementsByClassName("input") // collect all input with this classname
+          for (var i = 0; i < objects.length; i++) {
+            var myObj = objects[i]
+            myObj.editKey = false
+            myObj.editValue = false
+          }
+      }
       }
 }
 </script>
@@ -293,10 +293,6 @@ export default {
 .addCube:hover .fa-plus {
   color:  #1E90FF;
 }
-.inputStyle{
-
-}
-
 
 </style>
 
