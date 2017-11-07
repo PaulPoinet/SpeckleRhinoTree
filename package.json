@@ -11,7 +11,8 @@
   "dependencies": {
     "v-click-outside": "^0.1.4",
     "vue": "^2.4.4",
-    "vue-input-autowidth": "^1.0.1"
+    "vue-input-autowidth": "^1.0.1",
+    "vuedraggable": "^2.15.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
