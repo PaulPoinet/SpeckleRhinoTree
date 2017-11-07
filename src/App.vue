@@ -60,7 +60,7 @@ a {
 }
 
 .itemxxx {
-  cursor: pointer;
+  cursor: move;
 }
 
 .bold {

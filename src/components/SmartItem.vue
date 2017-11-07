@@ -29,20 +29,20 @@
         <input type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" id="input" v-model="objectKey" @blur="editKey=false" @keyup.enter= "editKey=false">
       </span>
 
-      <span v-if="editKey==false">
-        <label v-bind:title="messageEditLabel" @dblclick = "editTheKey"> {{objectKey}} </label>
-      </span>
+      
+      <label v-if="editKey==false" v-bind:title="messageEditLabel" @dblclick = "editTheKey"> {{objectKey}} </label>
+      
       
       <span v-if="!isFolder">
       :
       </span>
 
-      <span v-if="editValue==true">
-      <input type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" id="input" v-model="objectValue" @blur="editValue=false" @keyup.enter= "editValue=false">
-      </span>
-      <span v-if="editValue==false && !isFolder">
-        <label v-bind:title="messageEditLabel" @dblclick = "editTheValue"> {{objectValue}} </label>
-      </span>
+      
+      <input v-if="editValue==true" type="text" font-face="Roboto" font-size:18pt v-autowidth="{maxWidth: '960px', minWidth: '20px', comfortZone: 0}" @focus="$event.target.select()" id="input" v-model="objectValue" @blur="editValue=false" @keyup.enter= "editValue=false">
+     
+     
+      <label v-if="editValue==false && !isFolder" v-bind:title="messageEditLabel" @dblclick = "editTheValue"> {{objectValue}} </label>
+    
       
 
       <!-- 
@@ -59,30 +59,47 @@
         <i class="fa fa-times" aria-hidden="true" @click="trashThis" v-if="!model.children" v-bind:title="messageDelete0"></i>
         <i class="fa fa-times" aria-hidden="true" @click="trashThis" v-if="isFolder && model.children.length>0" v-bind:title="messageDelete1"></i>
          -->
-      <a class="contentDescription">
-        <i class="fa fa-times" aria-hidden="true" @click="trashThis" v-bind:title="messageDelete0"></i>
-      </a>
+      <span style="text-indent: 1em"></span>
+      <span class="fa fa-times" aria-hidden="true" @click="trashThis" v-bind:title="messageDelete0"></span>
+      <span style="text-indent: 1em"></span>
+
+     
+      <i class="fa fa-unlock-alt" v-if="!fixObj" aria-hidden="true"  @click="changeBehaviour"></i>
+      <i class="fa fa-lock" v-if="fixObj" aria-hidden="true"  @click="changeBehaviour"></i>
+    
+
+ 
+
 
     </div>
     
 
 
     <ul v-show="open" v-if="isFolder">
-      <draggable v-model="model.children" :options="{group:'people'}" @start="drag=true" @end="drag=false" class="drag">
-        
-
-      <item class="item" v-for="(model, index) in model.children":model="model" :index='index' @deleteMe='deleteKid' ></item>
       
 
-      </draggable>
+
+      <!--<item class="item" v-for="(model, index) in model.children" :model.name="model.name" :key="index" :model="model" :index='index' @deleteMe='deleteKid' ></item>-->
+
+        <vddl-list class="panel__body--list" :list="model.children" :horizontal="false">
+              
+              <vddl-draggable class="item" v-for="(model, index) in model.children" :model="model" :key="index" @deleteMe='deleteKid' :draggable="model" :index='index' :wrapper="model.children" effect-allowed="move" >
+                {{"sgdfg"}}
+              </vddl-draggable>
+
+              
+            <vddl-placeholder class="red">Custom placeholder</vddl-placeholder>
+        </vddl-list>
+
+      
 
 
         
 
-      <a class="addCube" aria-hidden="true" @click="addChild"  v-bind:title="messageAdd1">
+      <span class="addCube" aria-hidden="true" @click="addChild"  v-bind:title="messageAdd1">
       <i class="fa fa-plus"  aria-hidden="true"></i>
       <i class="fa fa-cube"  aria-hidden="true"></i>
-      </a>
+      </span>
 
     </ul>
   </li>
@@ -93,17 +110,21 @@
 
 
 //import ModalPrompt from './components/ModalPrompt.js'
-import draggable from 'vuedraggable'
+//import draggable from 'vuedraggable'
+import Vddl from 'vddl';
+
+
 export default {
-    name: 'item',
-  Value: 'item',
+  name: 'vddl-draggable',
+  Value: 'vddl-draggable',
+
   props: {
     model: Object,
     index: Number,
     
   },
   components:{
-    draggable,
+    //draggable,
   },
   data: function () {
     return {
@@ -124,6 +145,8 @@ export default {
       open: true,
       editKey: false,
       editValue: false,
+      fixObj: false,
+      drag: true,
       
 
     }
@@ -152,6 +175,10 @@ export default {
       }
     },
 
+    changeBehaviour(){
+      this.fixObj = !this.fixObj
+      this.drag = !this.drag
+    },
 
     changeType() {
       if (!this.isFolder) {
@@ -211,23 +238,28 @@ export default {
 <style>
 .fa-cubes {
     color: black;
+    cursor:pointer;
 }
 .fa-cubes:hover {
     color:  blue;
 }
 .fa-cubes.identity {
+  cursor:move;
     color: blue;
 }
 .fa-times {
+    cursor:pointer;
     color: black;
 }
 .fa-times:hover{
     color: red;
 }
 .fa-plus {
+    cursor: pointer;
     color: black;
 }
 .fa-plus:hover {
+    cursor: pointer;
     color:  #1E90FF;
     @extend .fa-cube;
 }
@@ -235,13 +267,17 @@ export default {
     color:  #1E90FF;
 }
 .fa-cube {
+
+    
     color:  rgba(0,0,0,0);
 }
 .fa-cube:hover {
+
     color:  #1E90FF;
 }
 .fa-chevron-down {
     color:  black;
+    cursor: pointer;
     /*transition: transform 0.2s ease 0s;*/
 }
 .fa-chevron-down:hover {
@@ -250,6 +286,7 @@ export default {
 }
 .fa-chevron-right {
     color:  blue;
+    cursor: pointer;
     /*transition: transform 0.2s ease 0s;*/
 }
 .fa-chevron-right:hover {
@@ -266,16 +303,29 @@ export default {
   color: DarkGray;
   font-family: Menlo, Consolas, monospace;
   font-weight: lighter;
+  
+}
+.addCube{
+  cursor: pointer;
 }
 .addCube:hover .fa-cube {
+  cursor: pointer;
   color:  #66CCFF;
 }
 .addCube:hover .fa-plus {
+  cursor: pointer;
   color:  #1E90FF;
 }
 .inputStyle{
 }
+.fa-unlock-alt{
+  cursor:pointer;
+  color: #1E90FF;
+}
 
+.fa-lock{
+  cursor: pointer;
+}
 
 
 .item{
@@ -311,7 +361,7 @@ export default {
   background-color: rgba(117, 190, 218, 0.1);
   
     border-left-width: 2px;
-  border-left-color: black;
+  border-left-color: blue;
 
 }
 
