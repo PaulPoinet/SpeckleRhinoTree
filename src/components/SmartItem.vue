@@ -288,8 +288,7 @@ export default {
   border-color: rgba(102, 204, 255,0);
   border-radius: 5px;
 
-  border-top-width: 0px;
-  border-top-color: rgba(102, 204, 255,0);
+
   border-left-width: 2px;
   border-left-color: DarkGray;
 
@@ -312,9 +311,8 @@ export default {
   background-color: rgba(117, 190, 218, 0.1);
   
     border-left-width: 2px;
-  border-left-color: #1E90FF;
-    border-top-width: 2px;
-  border-top-color: #1E90FF;
+  border-left-color: black;
+
 }
 
 
