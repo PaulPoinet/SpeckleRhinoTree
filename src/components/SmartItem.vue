@@ -210,7 +210,7 @@ export default {
 
 <style>
 .fa-cubes {
-    color: DarkGray;
+    color: black;
 }
 .fa-cubes:hover {
     color:  blue;
@@ -219,13 +219,13 @@ export default {
     color: blue;
 }
 .fa-times {
-    color: DarkGray;
+    color: black;
 }
 .fa-times:hover{
     color: red;
 }
 .fa-plus {
-    color: DarkGray;
+    color: black;
 }
 .fa-plus:hover {
     color:  #1E90FF;
@@ -241,7 +241,7 @@ export default {
     color:  #1E90FF;
 }
 .fa-chevron-down {
-    color:  DarkGray;
+    color:  black;
     /*transition: transform 0.2s ease 0s;*/
 }
 .fa-chevron-down:hover {
@@ -257,7 +257,7 @@ export default {
     /*transform: rotate(90deg);*/
 }
 .fa-pencil-square-o {
-    color:  DarkGray;
+    color:  black;
 }
 .fa-pencil-square-o:hover {
     color:  #2c3e50;
