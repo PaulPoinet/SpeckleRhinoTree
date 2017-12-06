@@ -1,35 +1,35 @@
 <template>
   <div id="app">
     <ul>
-      <smart-item
-        class="itemxxx"
-        :model="tree">
-      </smart-item>
+      <global-controls>
+      </global-controls>
     </ul>
   </div>
-
 </template>
+
+
 
 <script>
 
-import SmartItem from './components/SmartItem.vue'
+import GlobalControls from './components/GlobalControls.vue'
 import Data from './components/Data.js'
 
 export default {
   name: 'app',
   components: {
-    SmartItem
+    GlobalControls
   },
 
   data () {
     return {
-      tree: Data
+      tree: Data,
     }
   },
-  methods:{
 
+  methods:{
   }
 }
+
 </script>
 
 <style>
@@ -37,9 +37,12 @@ export default {
   font-family: Menlo, Roboto, monospace;
   font-size:12pt;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+
+  color: black;
   margin-top: 60px;
+
+
+
 }
 
 h1, h2 {
@@ -48,20 +51,18 @@ h1, h2 {
 
 ul {
   list-style-type: none;
-  padding: 0;
+
 }
 
 li {
-  margin: 0 10px;
+
+  
 }
 
 a {
   color: #42b983;
 }
 
-.itemxxx {
-  cursor: pointer;
-}
 
 .bold {
   font-weight: bold;
@@ -73,6 +74,6 @@ a {
 ul {
   padding-left: 1em;
   line-height: 1.5em;
-  list-style-type: dot;
+
 }
 </style>
